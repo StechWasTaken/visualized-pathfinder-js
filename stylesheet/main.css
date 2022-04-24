@@ -1,0 +1,48 @@
+body {
+    padding: 0px;
+    margin: 0px;
+}
+
+#container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.vertex {
+    border: 1px solid black;
+    box-sizing: border-box;
+    transition: all 0.5s;
+}
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.over {
+    background-color: aquamarine;
+    transition: all 0.05s;
+}
+
+.obstacle {
+    background-color: black;
+}
+
+.source {
+    background-color: green !important;
+}
+
+.target {
+    background-color: red !important;
+}
+
+.visited {
+    background-color: blue;
+}
+
+.path {
+    background-color: yellow;
+}
