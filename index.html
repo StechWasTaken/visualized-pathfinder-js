@@ -9,6 +9,57 @@
     <link rel="stylesheet" href="stylesheet/main.css">
 </head>
 <body>
-    <div id="container"></div>
+    <div class="navbar is-light is-fixed-top">
+        <div class="navbar-item">
+            <div class="field has-addons">
+                <div class="control has-icons-left">
+                    <div class="select">
+                        <select id="size">
+                            <option value="8">8x8</option>
+                            <option value="16" selected>16x16</option>
+                            <option value="32">32x32</option>
+                            <option value="64">64x64</option>
+                        </select>
+                    </div>
+                    <div class="icon is-small is-left">
+                        <i class="fa-solid fa-border-all"></i> 
+                    </div>
+                </div>
+                <div class="control">
+                    <button id="generate" class="button is-primary">Generate</button>
+                </div>
+            </div>
+        </div>
+        <div class="navbar-item">
+            <input id="source" class="input" type="text" placeholder="Focus to select a source" readonly>
+        </div>
+        <div class="navbar-item">
+            <input id="target" class="input" type="text" placeholder="Focus to select a target" readonly>
+        </div>
+        <div class="navbar-item">
+            <div class="field has-addons">
+                <div class="control has-icons-left">
+                    <div class="select">
+                        <select id="algorithm">
+                            <option value="dijkstra" selected>Dijkstra</option>
+                            <option value="astar">A*</option>
+                        </select>
+                    </div>
+                    <div class="icon is-small is-left">
+                        <i class="fa-solid fa-code"></i>
+                    </div>
+                </div>
+                <div class="control">
+                    <button id="run" class="button is-primary">Run</button>
+                </div>
+            </div>
+        </div>
+        <div class="navbar-item">
+            <button id="clear" class="button is-danger">Clear Grid</button>
+        </div>
+    </div>
+    <div id="container">
+
+    </div>
 </body>
 </html>

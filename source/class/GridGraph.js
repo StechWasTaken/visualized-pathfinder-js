@@ -5,7 +5,7 @@ export default class GridGraph {
     element = document.createElement("div");
     adjacencyList = {}
     vertices = {}
-    size = window.innerHeight / 2 - 50;
+    size = window.innerHeight / 1.41;
     source = null;
     target = null;
 
@@ -33,6 +33,9 @@ export default class GridGraph {
      * @param {Vertex} source 
      */
      setSource(source) {
+        if (this.source != null) {
+            this.source.element.classList.remove("source");
+        }
         this.source = source;
         source.element.classList.add("source");
     }
@@ -42,6 +45,9 @@ export default class GridGraph {
      * @param {Vertex} target 
      */
     setTarget(target) {
+        if (this.target != null) {
+            this.target.element.classList.remove("target");
+        }
         this.target = target;
         target.element.classList.add("target");
     }
@@ -51,8 +57,6 @@ export default class GridGraph {
     }
 
     getElement() {
-        var _this = this;
-
         this.element.className = "grid";
         this.element.style.width = this.size + "px";
         this.element.style.height = this.size + "px";
@@ -72,20 +76,13 @@ export default class GridGraph {
             for (let x = 0; x < this.width; x++) {
                 let key = `${x}:${y}`;
                 let vertex = this.vertices[key];
-
-                if (Math.random() < 0.45 && vertex !== this.source && vertex !== this.target) {
-                    vertex.switchObstacle();
-                }
             }
         }
-
-        
 
         for (let y = 0; y < this.height; y++) {
             for (let x = 0; x < this.width; x++) {
                 let current = `${x}:${y}`;
                 let neighbors = [`${x-1}:${y}`, `${x}:${y-1}`, `${x+1}:${y}`, `${x}:${y+1}`, `${x-1}:${y-1}`, `${x+1}:${y-1}`, `${x+1}:${y+1}`, `${x-1}:${y+1}`];
-
                 for (let key in neighbors) {
                     if (neighbors[key] in this.adjacencyList) {
                         if (this.vertices[neighbors[key]].isObstacle) continue;
@@ -93,6 +90,13 @@ export default class GridGraph {
                     }
                 }
             }
+        }
+    }
+
+    clear() {
+        for (let key in this.vertices) {
+            let vertex = this.vertices[key];
+            vertex.reset();
         }
     }
 }

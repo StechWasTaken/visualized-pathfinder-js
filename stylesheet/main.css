@@ -1,3 +1,10 @@
+@import "https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css";
+@import "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css";
+
+html {
+    overflow-y: hidden;
+}
+
 body {
     padding: 0px;
     margin: 0px;
@@ -12,14 +19,31 @@ body {
 }
 
 .vertex {
-    border: 1px solid black;
+    border: 1px solid #363636;
     box-sizing: border-box;
-    transition: all 0.5s;
+    transition: all 0.25s;
 }
 
 .grid {
     display: flex;
     flex-wrap: wrap;
+    transition: all 0.25s;
+}
+
+.grid.is-set-source > .vertex:hover {
+    background-color: #48c78e;
+}
+
+.grid.is-set-source {
+    box-shadow: 0px 0px 0px 5px #48c78e;
+}
+
+.grid.is-set-target {
+    box-shadow: 0px 0px 0px 5px #f14668;
+}
+
+.grid.is-set-target > .vertex:hover {
+    background-color: #f14668;
 }
 
 .over {
@@ -28,21 +52,21 @@ body {
 }
 
 .obstacle {
-    background-color: black;
+    background-color: #363636 !important;
 }
 
 .source {
-    background-color: green !important;
+    background-color: #48c78e !important;
 }
 
 .target {
-    background-color: red !important;
+    background-color: #f14668 !important;
 }
 
 .visited {
-    background-color: blue;
+    background-color: #3e8ed0;
 }
 
 .path {
-    background-color: yellow;
+    background-color: #ffe08a;
 }
