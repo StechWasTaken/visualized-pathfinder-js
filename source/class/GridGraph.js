@@ -99,4 +99,23 @@ export default class GridGraph {
             vertex.reset();
         }
     }
+
+    /**
+     * 
+     * @param {Vertex} vertex 
+     */
+    manhattenNeighbors(vertex) {
+        const x = vertex.x;
+        const y = vertex.y;
+        const keys = [`${x-1}:${y}`, `${x}:${y-1}`, `${x+1}:${y}`, `${x}:${y+1}`];
+        const neighbors = [];
+
+        for (let key in keys) {
+            if (keys[key] in this.adjacencyList) {
+                neighbors.push(this.vertices[keys[key]]);
+            }
+        }
+
+        return neighbors;
+    }
 }
