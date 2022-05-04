@@ -37,18 +37,29 @@ const targetField = document.getElementById("target");
 const sourceField = document.getElementById("source");
 const clearField = document.getElementById("clear");
 
-var graph = generateGraph();
+var graph = null;
+var source = null;
+var target = null;   
 var algorithm = selectAlgorithm();
-var sourceKey = `0:0`;
-var targetKey = `${size.value-1}:${size.value-1}`;
-var source = graph.getVertex(sourceKey);
-var target = graph.getVertex(targetKey);
-
-graph.setSource(source);
-graph.setTarget(target);
 
 generateField.addEventListener("click", function() {
+    document.getElementById("run").setAttribute("disabled", "");
+    document.getElementById("source").removeAttribute("disabled");
+    document.getElementById("source").value = "";
+    document.getElementById("target").removeAttribute("disabled");
+    document.getElementById("target").value = "";
     graph = generateGraph();
+    graph.element.addEventListener("click", function(e) {
+        if (this.classList.contains("is-set-source")) {
+            source = graph.getVertex(e.target.id);
+            graph.setSource(source);
+            document.getElementById("source").value = `Cell: (${source.x}, ${source.y})`;
+        } else if (this.classList.contains("is-set-target")) {
+            target = graph.getVertex(e.target.id);
+            graph.setTarget(target);
+            document.getElementById("target").value = `Cell: (${target.x}, ${target.y})`;
+        }
+    });
 });
 
 algorithmField.addEventListener("change", function() {
@@ -60,8 +71,11 @@ sourceField.addEventListener("focusin", function() {
 });
 
 sourceField.addEventListener("focusout", async function(e) {
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise(resolve => setTimeout(resolve, 200));
     graph.element.classList.remove("is-set-source");
+    if (target != null) {
+        document.getElementById("run").removeAttribute("disabled");
+    }
 });
 
 targetField.addEventListener("focusin", function() {
@@ -69,19 +83,10 @@ targetField.addEventListener("focusin", function() {
 });
 
 targetField.addEventListener("focusout", async function() {
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise(resolve => setTimeout(resolve, 200));
     graph.element.classList.remove("is-set-target");
-});
-
-graph.element.addEventListener("click", function(e) {
-    if (this.classList.contains("is-set-source")) {
-        sourceKey = e.target.id;
-        source = graph.getVertex(sourceKey);
-        graph.setSource(source);
-    } else if (this.classList.contains("is-set-target")) {
-        targetKey = e.target.id;
-        target = graph.getVertex(targetKey);
-        graph.setTarget(target);
+    if (source != null) {
+        document.getElementById("run").removeAttribute("disabled");
     }
 });
 
@@ -92,8 +97,6 @@ runField.addEventListener("click", async function() {
     sourceField.setAttribute("disabled", "");
     targetField.setAttribute("disabled", "");
     await algorithm(graph, source, target);
-    sourceField.removeAttribute("disabled");
-    targetField.removeAttribute("disabled");
     clearField.removeAttribute("disabled");
     generateField.removeAttribute("disabled");
     this.removeAttribute("disabled");
@@ -101,4 +104,6 @@ runField.addEventListener("click", async function() {
 
 clearField.addEventListener("click", function() {
     graph.clear();
+    document.getElementById("source").removeAttribute("disabled");
+    document.getElementById("target").removeAttribute("disabled");
 });
