@@ -29,7 +29,7 @@ function generateGraph() {
     return graph;
 }
 
-const generateField = document.getElementById("generate");
+const gridField = document.getElementById("grid");
 const runField = document.getElementById("run");
 const sizeField = document.getElementById("size");
 const algorithmField = document.getElementById("algorithm");
@@ -42,7 +42,7 @@ var source = null;
 var target = null;   
 var algorithm = selectAlgorithm();
 
-generateField.addEventListener("click", function() {
+gridField.addEventListener("click", function() {
     document.getElementById("run").setAttribute("disabled", "");
     document.getElementById("source").removeAttribute("disabled");
     document.getElementById("source").value = "";
@@ -93,12 +93,12 @@ targetField.addEventListener("focusout", async function() {
 runField.addEventListener("click", async function() {
     this.setAttribute("disabled", "");
     clearField.setAttribute("disabled", "");
-    generateField.setAttribute("disabled", "");
+    gridField.setAttribute("disabled", "");
     sourceField.setAttribute("disabled", "");
     targetField.setAttribute("disabled", "");
     await algorithm(graph, source, target);
     clearField.removeAttribute("disabled");
-    generateField.removeAttribute("disabled");
+    gridField.removeAttribute("disabled");
     this.removeAttribute("disabled");
     if (source == target) {
         graph.clear();
