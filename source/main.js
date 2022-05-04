@@ -53,11 +53,11 @@ generateField.addEventListener("click", function() {
         if (this.classList.contains("is-set-source")) {
             source = graph.getVertex(e.target.id);
             graph.setSource(source);
-            document.getElementById("source").value = `Cell: (${source.x}, ${source.y})`;
+            document.getElementById("source").value = `Source: (${source.x}, ${source.y})`;
         } else if (this.classList.contains("is-set-target")) {
             target = graph.getVertex(e.target.id);
             graph.setTarget(target);
-            document.getElementById("target").value = `Cell: (${target.x}, ${target.y})`;
+            document.getElementById("target").value = `Target: (${target.x}, ${target.y})`;
         }
     });
 });
