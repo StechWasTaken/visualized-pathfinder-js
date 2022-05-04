@@ -1,4 +1,7 @@
 import GridGraph from "./GridGraph.js";
+import Vertex from "./Vertex.js";
+
+const TIMEOUT_TIME = 1;
 
 export default class Maze {
 
@@ -6,7 +9,7 @@ export default class Maze {
      * 
      * @param {GridGraph} graph 
      */
-    static prim(graph) {
+    static async prim(graph) {
         const pasages = new Set();
         const walls = [];
 
@@ -17,8 +20,11 @@ export default class Maze {
             vertex.switchObstacle();
         }
 
-        const x = Math.floor(Math.random() * (graph.width - 1));
-        const y = Math.floor(Math.random() * (graph.height - 1));
+        let x = Math.floor(Math.random() * (graph.width - 1));
+        let y = Math.floor(Math.random() * (graph.height - 1));
+
+        x += x % 2 == 0 ? 1 : 0;
+        y += y % 2 == 0 ? 1 : 0; 
 
         let vertex = graph.getVertex(`${x}:${y}`);
         vertex.switchObstacle();
@@ -54,9 +60,12 @@ export default class Maze {
                     if (!vertex || pasages.has(vertex)) continue;
 
                     vertex.switchObstacle();
+
+                    await new Promise(resolve => setTimeout(resolve, TIMEOUT_TIME));
+
+                    current.switchObstacle();
                     pasages.add(vertex);
                     pasages.add(current);
-                    current.switchObstacle();
                     
                     Maze.frontierCells(graph, current).forEach(fc => {
                         if (!walls.includes(fc) && !pasages.has(fc)) walls.push(fc);

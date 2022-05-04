@@ -44,8 +44,7 @@ export default class Pathfinder {
 
             current.element.classList.add("visited");
 
-            const promise = new Promise(resolve => setTimeout(resolve, TIMEOUT_TIME));
-            await promise;
+            await new Promise(resolve => setTimeout(resolve, TIMEOUT_TIME));
 
             if (current === target) break;
 
@@ -54,7 +53,7 @@ export default class Pathfinder {
             for (let key in neighbors) {
                 let neighbor = neighbors[key];
 
-                if (!unvisited.has(neighbor)) continue;
+                if (!unvisited.has(neighbor) || neighbor.isObstacle) continue;
 
                 let alt = current.getUpperbound() + Edge.getWeight(current, neighbor);
                 if (alt < neighbor.getUpperbound()) {
@@ -104,7 +103,7 @@ export default class Pathfinder {
             for (let key in neighbors) {
                 let neighbor = neighbors[key];
 
-                if (!unvisited.has(neighbor)) continue;
+                if (!unvisited.has(neighbor) || neighbor.isObstacle) continue;
 
                 let alt = current.getUpperbound() + Edge.getWeight(current, neighbor);
 
