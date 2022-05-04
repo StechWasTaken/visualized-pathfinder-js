@@ -100,6 +100,11 @@ runField.addEventListener("click", async function() {
     clearField.removeAttribute("disabled");
     generateField.removeAttribute("disabled");
     this.removeAttribute("disabled");
+    if (source == target) {
+        graph.clear();
+        document.getElementById("source").removeAttribute("disabled");
+        document.getElementById("target").removeAttribute("disabled");
+    }
 });
 
 clearField.addEventListener("click", function() {

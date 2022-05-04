@@ -31,7 +31,7 @@ body {
 }
 
 .grid.is-set-source > .vertex:hover {
-    background-color: #48c78e;
+    background-color: rgba(72, 199, 142, 0.5);
 }
 
 .grid.is-set-source {
@@ -43,7 +43,7 @@ body {
 }
 
 .grid.is-set-target > .vertex:hover {
-    background-color: #f14668;
+    background-color: rgba(241, 70, 104, 0.5);
 }
 
 .over {
@@ -55,18 +55,26 @@ body {
     background-color: #363636 !important;
 }
 
-.source {
-    background-color: #48c78e !important;
-}
-
-.target {
-    background-color: #f14668 !important;
-}
-
 .visited {
     background-color: #3e8ed0;
 }
 
 .path {
     background-color: #ffe08a;
+}
+
+.source {
+    background-color: #48c78e;
+}
+
+.target {
+    background-color: #f14668;
+}
+
+.grid.is-set-target > .source:hover, .grid.is-set-source > .target:hover {
+    background: linear-gradient(135deg, rgba(72,199,142,0.5) 50%, rgba(241,70,104,0.5) 50%);
+}
+
+.source.target {
+    background: linear-gradient(135deg, rgba(72,199,142,1) 50%, rgba(241,70,104,1) 50%);
 }
