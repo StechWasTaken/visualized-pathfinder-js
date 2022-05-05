@@ -32,7 +32,7 @@ function selectMazeAlgorithm() {
     }
 }
 
-function generateGraph() {
+async function generateGraph() {
     const container = document.getElementById("container");
     const size = document.getElementById("size");
     const width = size.value
@@ -42,7 +42,7 @@ function generateGraph() {
     container.innerHTML = "";
     container.append(graph.getElement());
     const algorithm = selectMazeAlgorithm();
-    algorithm(graph);
+    await algorithm(graph);
     return graph;
 }
 
@@ -71,13 +71,15 @@ hamburger.addEventListener("click", function() {
     
 });
 
-gridField.addEventListener("click", function() {
+gridField.addEventListener("click", async function() {
     document.getElementById("run").setAttribute("disabled", "");
-    document.getElementById("source").removeAttribute("disabled");
+    document.getElementById("source").setAttribute("disabled", "");
+    document.getElementById("target").setAttribute("disabled", "");
     document.getElementById("source").value = "";
-    document.getElementById("target").removeAttribute("disabled");
     document.getElementById("target").value = "";
-    graph = generateGraph();
+    graph = await generateGraph();
+    document.getElementById("source").removeAttribute("disabled");
+    document.getElementById("target").removeAttribute("disabled");
     graph.element.addEventListener("click", function(e) {
         if (this.classList.contains("is-set-source")) {
             source = graph.getVertex(e.target.id);
