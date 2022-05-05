@@ -27,6 +27,8 @@ function selectMazeAlgorithm() {
             return Maze.prim;
         case "random":
             return Maze.random;
+        case "dfs":
+            return Maze.dfs;
         default:
             return (graph) => (graph);
     }

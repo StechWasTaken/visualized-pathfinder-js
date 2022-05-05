@@ -10,7 +10,7 @@ export default class Maze {
      * @param {GridGraph} graph 
      */
     static async prim(graph) {
-        const pasages = new Set();
+        const passages = new Set();
         const walls = [];
 
         graph.clear();
@@ -30,7 +30,7 @@ export default class Maze {
 
         let vertex = graph.getVertex(`${x}:${y}`);
         vertex.switchObstacle();
-        pasages.add(vertex);
+        passages.add(vertex);
 
         Maze.frontierCells(graph, vertex).forEach(fc => {
             walls.push(fc);
@@ -59,18 +59,18 @@ export default class Maze {
                         vertex = graph.getVertex(key);
                     }
 
-                    if (!vertex || pasages.has(vertex)) continue;
+                    if (!vertex || passages.has(vertex)) continue;
 
                     vertex.switchObstacle();
 
                     await new Promise(resolve => setTimeout(resolve, TIMEOUT_TIME));
 
                     current.switchObstacle();
-                    pasages.add(vertex);
-                    pasages.add(current);
+                    passages.add(vertex);
+                    passages.add(current);
                     
                     Maze.frontierCells(graph, current).forEach(fc => {
-                        if (!walls.includes(fc) && !pasages.has(fc)) walls.push(fc);
+                        if (!walls.includes(fc) && !passages.has(fc)) walls.push(fc);
                     });
 
                     break;
@@ -91,6 +91,65 @@ export default class Maze {
                 }
             }
             await new Promise(resolve => setTimeout(resolve, TIMEOUT_TIME));
+        }
+    }
+
+    static async dfs(graph) {
+        const stack = [];
+        const passages = new Set();
+
+        graph.clear();
+
+        for (let y = 0; y < graph.height; y++) {
+            for (let x = 0; x < graph.width; x++) {
+                graph.vertices[`${x}:${y}`].switchObstacle();
+            }
+            await new Promise(resolve => setTimeout(resolve, TIMEOUT_TIME));
+        }
+
+        let x = Math.floor(Math.random() * (graph.width - 1));
+        let y = Math.floor(Math.random() * (graph.height - 1));
+
+        x += x % 2 == 0 ? 1 : 0;
+        y += y % 2 == 0 ? 1 : 0; 
+
+        let vertex = graph.getVertex(`${x}:${y}`);
+        stack.push(vertex);
+
+        while (stack.length > 0) {
+            let current = stack.pop();
+            let neighbors = Maze.frontierCells(graph, current);
+
+            neighbors.sort((a, b) => 0.5 - Math.random());
+
+            passages.add(current);
+            if (current.isObstacle) current.switchObstacle();
+
+            await new Promise(resolve => setTimeout(resolve, 1));
+
+            for (let key in neighbors) {
+                let neighbor = neighbors[key];
+
+                if (!passages.has(neighbor)) {
+                    if (current.x == neighbor.x) {
+                        let dy = current.y > neighbor.y ? current.y - 1 : current.y + 1;
+                        let dx = current.x;
+                        vertex = graph.getVertex(`${dx}:${dy}`);
+                    } else {
+                        let dy = current.y;
+                        let dx = current.x > neighbor.x ? current.x - 1 : current.x + 1;
+                        vertex = graph.getVertex(`${dx}:${dy}`);
+                    }
+
+                    stack.push(current);
+                    vertex.switchObstacle();
+                    passages.add(vertex);
+                    passages.add(neighbor);
+                    stack.push(neighbor);
+
+                    break;
+                }
+            }
         }
     }
 
