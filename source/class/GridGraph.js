@@ -5,7 +5,7 @@ export default class GridGraph {
     element = document.createElement("div");
     adjacencyList = {}
     vertices = {}
-    size = window.innerHeight / 1.41;
+    size = window.innerWidth / 3;
     source = null;
     target = null;
 
@@ -58,14 +58,17 @@ export default class GridGraph {
 
     getElement() {
         this.element.className = "grid";
-        this.element.style.width = this.size + "px";
-        this.element.style.height = this.size + "px";
 
-        for (let key in this.vertices) {
-            let vertex = this.vertices[key];
-            let childElement = vertex.getElement(this.size / this.width);
-
-            this.element.insertAdjacentElement("beforeend", childElement);
+        for (let y = 0; y < this.height; y++) {
+            let rowElement = document.createElement("div");
+            rowElement.className = "row";
+            rowElement.id = y;
+            for (let x = 0; x < this.width; x++) {
+                let vertex = this.vertices[`${x}:${y}`];
+                let childElement = vertex.getElement(this.size / this.width);
+                rowElement.insertAdjacentElement("beforeend", childElement);
+            }
+            this.element.insertAdjacentElement("beforeend", rowElement);
         }
 
         return this.element;

@@ -10,64 +10,86 @@
 </head>
 <body>
     <div class="navbar is-light is-fixed-top">
-        <div class="navbar-item">
-            <div class="field has-addons">
+        <div class="navbar-brand">
+            <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="controller-navbar">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div id="controller-navbar" class="navbar-menu">
+            <div class="navbar-item">
+                <div class="field has-addons">
+                    <div class="control has-icons-left">
+                        <div class="select">
+                            <select id="size">
+                                <option value="9">9x9</option>
+                                <option value="27">27x27</option>
+                                <option value="37" selected>37x37</option>
+                                <option value="51">51x51</option>
+                                <option value="81">81x81</option>
+                            </select>
+                        </div>
+                        <div class="icon is-small is-left">
+                            <i class="fa-solid fa-border-all"></i> 
+                        </div>
+                    </div>
+                    <div class="control has-icons-left">
+                        <div class="select">
+                            <select id="maze">
+                                <option value="prim" selected>Prim's MST</option>
+                                <option value="random">Random</option>
+                                <option>None</option>
+                            </select>
+                        </div>
+                        <div class="icon is-small is-left">
+                            <i class="fa-solid fa-code"></i>
+                        </div>
+                    </div>
+                    <div class="control">
+                        <button id="grid" class="button is-primary">Generate</button>
+                    </div>
+                </div>
+            </div>
+            <div class="navbar-item">
                 <div class="control has-icons-left">
-                    <div class="select">
-                        <select id="size">
-                            <option value="9">9x9</option>
-                            <option value="27">27x27</option>
-                            <option value="51" selected>51x51</option>
-                            <option value="81">81x81</option>
-                        </select>
-                    </div>
+                    <input id="source" class="input is-success" type="text" 
+                    placeholder="Select source cell" readonly disabled>
                     <div class="icon is-small is-left">
-                        <i class="fa-solid fa-border-all"></i> 
+                        <i class="fa-solid fa-circle-nodes"></i>
                     </div>
                 </div>
-                <div class="control">
-                    <button id="grid" class="button is-primary">Generate</button>
-                </div>
             </div>
-        </div>
-        <div class="navbar-item">
-            <div class="control has-icons-left">
-                <input id="source" class="input is-success" type="text" 
-                placeholder="Select source cell" readonly disabled>
-                <div class="icon is-small is-left">
-                    <i class="fa-solid fa-circle-nodes"></i>
-                </div>
-            </div>
-        </div>
-        <div class="navbar-item">
-            <div class="control has-icons-left">
-                <input id="target" class="input is-danger" type="text" 
-                placeholder="Select target cell" readonly disabled>
-                <div class="icon is-small is-left">
-                    <i class="fa-solid fa-circle-nodes"></i>
-                </div>
-            </div>
-        </div>
-        <div class="navbar-item">
-            <div class="field has-addons">
+            <div class="navbar-item">
                 <div class="control has-icons-left">
-                    <div class="select">
-                        <select id="algorithm">
-                            <option value="dijkstra" selected>Dijkstra</option>
-                            <option value="astar">A*</option>
-                        </select>
-                    </div>
+                    <input id="target" class="input is-danger" type="text" 
+                    placeholder="Select target cell" readonly disabled>
                     <div class="icon is-small is-left">
-                        <i class="fa-solid fa-code"></i>
+                        <i class="fa-solid fa-circle-nodes"></i>
                     </div>
-                </div>
-                <div class="control">
-                    <button id="run" class="button is-primary" disabled>Run</button>
                 </div>
             </div>
-        </div>
-        <div class="navbar-item">
-            <button id="clear" class="button is-danger">Clear Grid</button>
+            <div class="navbar-item">
+                <div class="field has-addons">
+                    <div class="control has-icons-left">
+                        <div class="select">
+                            <select id="algorithm">
+                                <option value="dijkstra" selected>Dijkstra</option>
+                                <option value="astar">A*</option>
+                            </select>
+                        </div>
+                        <div class="icon is-small is-left">
+                            <i class="fa-solid fa-code"></i>
+                        </div>
+                    </div>
+                    <div class="control">
+                        <button id="run" class="button is-primary" disabled>Run</button>
+                    </div>
+                </div>
+            </div>
+            <div class="navbar-item">
+                <button id="clear" class="button is-danger">Clear Grid</button>
+            </div>
         </div>
     </div>
     <div id="container">

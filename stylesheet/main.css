@@ -23,12 +23,16 @@ body {
     border: 1px solid #363636;
     box-sizing: border-box;
     transition: all 0.25s;
+    width: 10px;
 }
 
 .grid {
-    display: flex;
-    flex-wrap: wrap;
     transition: all 0.25s;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
 }
 
 .grid.is-set-source > .vertex:hover {

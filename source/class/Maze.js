@@ -79,6 +79,16 @@ export default class Maze {
         }
     }
 
+    static async random(graph) {
+        graph.clear();
+        for (let key in graph.vertices) {
+            if (Math.random() < 0.5) {
+                await new Promise(resolve => setTimeout(resolve, TIMEOUT_TIME));
+                graph.vertices[key].switchObstacle();
+            }
+        }
+    }
+
     /**
      * 
      * @param {GridGraph} graph 

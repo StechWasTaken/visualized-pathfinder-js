@@ -4,9 +4,9 @@ import Pathfinder from "./class/Pathfinder.js";
 import Edge from "./class/Edge.js";
 import Maze from "./class/Maze.js";
 
-function selectAlgorithm() {
-    const select = document.getElementById("algorithm");
-    const algorithm = select.value;
+function selectPathfindingAlgorithm() {
+    const algorithmField = document.getElementById("algorithm");
+    const algorithm = algorithmField.value;
 
     switch (algorithm) {
         case "dijkstra":
@@ -15,6 +15,20 @@ function selectAlgorithm() {
             return Pathfinder.astar;
         default:
             return Pathfinder.dijkstra;
+    }
+}
+
+function selectMazeAlgorithm() {
+    const mazeField = document.getElementById("maze");
+    const algorithm = mazeField.value; 
+
+    switch (algorithm) {
+        case "prim":
+            return Maze.prim;
+        case "random":
+            return Maze.random;
+        default:
+            return (graph) => (graph);
     }
 }
 
@@ -27,7 +41,8 @@ function generateGraph() {
     graph.generate();
     container.innerHTML = "";
     container.append(graph.getElement());
-    Maze.prim(graph);
+    const algorithm = selectMazeAlgorithm();
+    algorithm(graph);
     return graph;
 }
 
@@ -38,11 +53,23 @@ const algorithmField = document.getElementById("algorithm");
 const targetField = document.getElementById("target");
 const sourceField = document.getElementById("source");
 const clearField = document.getElementById("clear");
+const hamburger = document.getElementById("hamburger");
 
 var graph = null;
 var source = null;
 var target = null;   
-var algorithm = selectAlgorithm();
+var algorithm = selectPathfindingAlgorithm();
+
+hamburger.addEventListener("click", function() {
+    const menu = document.getElementById("controller-navbar");
+
+    if (!menu.classList.contains("is-active")) {
+        menu.classList.add("is-active");
+    } else {
+        menu.classList.remove("is-active");
+    }
+    
+});
 
 gridField.addEventListener("click", function() {
     document.getElementById("run").setAttribute("disabled", "");
@@ -65,7 +92,7 @@ gridField.addEventListener("click", function() {
 });
 
 algorithmField.addEventListener("change", function() {
-    algorithm = selectAlgorithm();
+    algorithm = selectPathfindingAlgorithm();
 });
 
 sourceField.addEventListener("focusin", function() {
