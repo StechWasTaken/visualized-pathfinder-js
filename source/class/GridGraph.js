@@ -18,6 +18,14 @@ export default class GridGraph {
         this.width = width;
         this.height = height;
 
+        let css = " ";
+
+        for (let i = 0; i < width; i++) {
+            css += "1fr ";
+        }
+
+        this.element.style.cssText = "grid-template-columns:" + css + ";";
+
         for (let y = 0; y < height; y++) {
             for (let x = 0; x < width; x++) {
                 let key = `${x}:${y}`;
@@ -60,15 +68,15 @@ export default class GridGraph {
         this.element.className = "grid";
 
         for (let y = 0; y < this.height; y++) {
-            let rowElement = document.createElement("div");
-            rowElement.className = "row";
-            rowElement.id = y;
+            // let rowElement = document.createElement("div");
+            // rowElement.className = "row";
+            // rowElement.id = y;
             for (let x = 0; x < this.width; x++) {
                 let vertex = this.vertices[`${x}:${y}`];
-                let childElement = vertex.getElement(this.size / this.width);
-                rowElement.insertAdjacentElement("beforeend", childElement);
+                let childElement = vertex.getElement(this.width);
+                this.element.insertAdjacentElement("beforeend", childElement);
             }
-            this.element.insertAdjacentElement("beforeend", rowElement);
+            // this.element.insertAdjacentElement("beforeend", rowElement);
         }
 
         return this.element;

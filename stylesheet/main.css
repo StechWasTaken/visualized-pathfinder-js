@@ -1,17 +1,13 @@
 @import "https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css";
 @import "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css";
 
-html {
-    overflow-y: hidden;
-}
-
 body {
     padding: 0px;
     margin: 0px;
 }
 
 #container {
-    height: 100vh;
+    height: 90vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -20,19 +16,17 @@ body {
 }
 
 .vertex {
-    border: 1px solid #363636;
     box-sizing: border-box;
     transition: all 0.25s;
-    width: 10px;
+    background-color: #eeeeee;
 }
 
 .grid {
     transition: all 0.25s;
-}
-
-.row {
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    column-gap: 1px;
+    row-gap: 1px;
+    padding: 1px;
 }
 
 .grid.is-set-source > .vertex:hover {
@@ -57,7 +51,7 @@ body {
 }
 
 .obstacle {
-    background-color: #363636 !important;
+    background-color: #505050 !important;
 }
 
 .visited {

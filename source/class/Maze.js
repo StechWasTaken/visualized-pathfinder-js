@@ -15,9 +15,11 @@ export default class Maze {
 
         graph.clear();
 
-        for (let key in graph.vertices) {
-            let vertex = graph.getVertex(key);
-            vertex.switchObstacle();
+        for (let y = 0; y < graph.height; y++) {
+            for (let x = 0; x < graph.width; x++) {
+                graph.vertices[`${x}:${y}`].switchObstacle();
+            }
+            await new Promise(resolve => setTimeout(resolve, TIMEOUT_TIME));
         }
 
         let x = Math.floor(Math.random() * (graph.width - 1));
@@ -81,11 +83,14 @@ export default class Maze {
 
     static async random(graph) {
         graph.clear();
-        for (let key in graph.vertices) {
-            if (Math.random() < 0.5) {
-                await new Promise(resolve => setTimeout(resolve, TIMEOUT_TIME));
-                graph.vertices[key].switchObstacle();
+
+        for (let y = 0; y < graph.height; y++) {
+            for (let x = 0; x < graph.width; x++) {
+                if (Math.random() < 0.5) {
+                    graph.vertices[`${x}:${y}`].switchObstacle();
+                }
             }
+            await new Promise(resolve => setTimeout(resolve, TIMEOUT_TIME));
         }
     }
 

@@ -95,8 +95,8 @@ export default class Vertex {
 
     getElement(size) {
         this.element.classList.add("vertex");
-        this.element.style.width = size + "px";
-        this.element.style.height = size + "px";
+        this.element.style.width = (70 / size) + "vmin";
+        this.element.style.height = (70 / size) + "vmin";
         this.element.id = this.key;
 
         return this.element;

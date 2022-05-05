@@ -125,7 +125,7 @@ runField.addEventListener("click", async function() {
     gridField.setAttribute("disabled", "");
     sourceField.setAttribute("disabled", "");
     targetField.setAttribute("disabled", "");
-    await algorithm(graph, source, target);
+    let path = await algorithm(graph, source, target);
     clearField.removeAttribute("disabled");
     gridField.removeAttribute("disabled");
     this.removeAttribute("disabled");
