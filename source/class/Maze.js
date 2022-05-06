@@ -125,8 +125,6 @@ export default class Maze {
             passages.add(current);
             if (current.isObstacle) current.switchObstacle();
 
-            await new Promise(resolve => setTimeout(resolve, 1));
-
             for (let key in neighbors) {
                 let neighbor = neighbors[key];
 
@@ -146,6 +144,8 @@ export default class Maze {
                     passages.add(vertex);
                     passages.add(neighbor);
                     stack.push(neighbor);
+
+                    await new Promise(resolve => setTimeout(resolve, 1));
 
                     break;
                 }
