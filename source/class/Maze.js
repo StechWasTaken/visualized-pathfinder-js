@@ -145,7 +145,7 @@ export default class Maze {
                     passages.add(neighbor);
                     stack.push(neighbor);
 
-                    await new Promise(resolve => setTimeout(resolve, 1));
+                    await new Promise(resolve => setTimeout(resolve, TIMEOUT_TIME));
 
                     break;
                 }
