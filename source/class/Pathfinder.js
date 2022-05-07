@@ -137,8 +137,6 @@ export default class Pathfinder {
         while (queue.length > 0) {
             let current = queue.shift();
 
-            if (!unvisited.has(current)) continue;
-
             current.element.classList.add("visited");
 
             await new Promise(resolve => setTimeout(resolve, TIMEOUT_TIME));
@@ -157,9 +155,8 @@ export default class Pathfinder {
                 if (alt < neighbor.getUpperbound()) {
                     neighbor.setUpperbound(alt);
                     neighbor.setPrevious(current);
+                    queue.push(neighbor);
                 }
-
-                queue.push(neighbor);
             }
 
             unvisited.delete(current);
@@ -183,8 +180,6 @@ export default class Pathfinder {
 
         while (stack.length > 0) {
             let current = stack.pop();
-
-            if (!unvisited.has(current)) continue;
 
             current.element.classList.add("visited");
 

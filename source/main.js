@@ -79,12 +79,16 @@ hamburger.addEventListener("click", function() {
 
 gridField.addEventListener("click", async function() {
     document.getElementById("run").setAttribute("disabled", "");
+    document.getElementById("grid").setAttribute("disabled", "");
     document.getElementById("source").setAttribute("disabled", "");
     document.getElementById("target").setAttribute("disabled", "");
+    document.getElementById("clear").setAttribute("disabled", "");
     document.getElementById("source").value = "";
     document.getElementById("target").value = "";
     graph = await generateGraph();
     document.getElementById("source").removeAttribute("disabled");
+    document.getElementById("grid").removeAttribute("disabled");
+    document.getElementById("clear").removeAttribute("disabled");
     document.getElementById("target").removeAttribute("disabled");
     graph.element.addEventListener("click", function(e) {
         if (this.classList.contains("is-set-source")) {
