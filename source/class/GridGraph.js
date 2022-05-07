@@ -68,15 +68,11 @@ export default class GridGraph {
         this.element.className = "grid";
 
         for (let y = 0; y < this.height; y++) {
-            // let rowElement = document.createElement("div");
-            // rowElement.className = "row";
-            // rowElement.id = y;
             for (let x = 0; x < this.width; x++) {
                 let vertex = this.vertices[`${x}:${y}`];
                 let childElement = vertex.getElement(this.width);
                 this.element.insertAdjacentElement("beforeend", childElement);
             }
-            // this.element.insertAdjacentElement("beforeend", rowElement);
         }
 
         return this.element;
@@ -93,7 +89,7 @@ export default class GridGraph {
         for (let y = 0; y < this.height; y++) {
             for (let x = 0; x < this.width; x++) {
                 let current = `${x}:${y}`;
-                let neighbors = [`${x-1}:${y}`, `${x}:${y-1}`, `${x+1}:${y}`, `${x}:${y+1}`, `${x-1}:${y-1}`, `${x+1}:${y-1}`, `${x+1}:${y+1}`, `${x-1}:${y+1}`];
+                let neighbors = [`${x-1}:${y+1}`, `${x-1}:${y-1}`, `${x+1}:${y-1}`, `${x+1}:${y+1}`, `${x}:${y+1}`, `${x-1}:${y}`, `${x}:${y-1}`, `${x+1}:${y}`];
                 for (let key in neighbors) {
                     if (neighbors[key] in this.adjacencyList) {
                         if (this.vertices[neighbors[key]].isObstacle) continue;
@@ -109,24 +105,5 @@ export default class GridGraph {
             let vertex = this.vertices[key];
             vertex.reset();
         }
-    }
-
-    /**
-     * 
-     * @param {Vertex} vertex 
-     */
-    manhattenNeighbors(vertex) {
-        const x = vertex.x;
-        const y = vertex.y;
-        const keys = [`${x-1}:${y}`, `${x}:${y-1}`, `${x+1}:${y}`, `${x}:${y+1}`];
-        const neighbors = [];
-
-        for (let key in keys) {
-            if (keys[key] in this.adjacencyList) {
-                neighbors.push(this.vertices[keys[key]]);
-            }
-        }
-
-        return neighbors;
     }
 }

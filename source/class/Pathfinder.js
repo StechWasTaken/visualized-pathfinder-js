@@ -27,7 +27,7 @@ export default class Pathfinder {
      * @param {Vertex} target 
      */
     static async dijkstra(graph, source, target) {
-        let pq = new PriorityQueue(DIJKSTRA_COMPARATOR);
+        const pq = new PriorityQueue(DIJKSTRA_COMPARATOR);
         const unvisited = new Set();
 
         for (let key in graph.vertices) {
@@ -113,6 +113,100 @@ export default class Pathfinder {
                     neighbor.setPrevious(current);
                     pq.push(neighbor);
                 }
+            }
+
+            unvisited.delete(current);
+        }
+
+        return Pathfinder.constructPath(source, target);
+    }
+
+    static async bfs(graph, source, target) {
+        const queue = [];
+        const unvisited = new Set();
+
+        for (let key in graph.vertices) {
+            let vertex = graph.vertices[key];
+            vertex.reset();
+            unvisited.add(vertex);
+        }
+
+        source.setUpperbound(0);
+        queue.push(source);
+
+        while (queue.length > 0) {
+            let current = queue.shift();
+
+            if (!unvisited.has(current)) continue;
+
+            current.element.classList.add("visited");
+
+            await new Promise(resolve => setTimeout(resolve, TIMEOUT_TIME));
+
+            if (current == target) break;
+
+            let neighbors = graph.adjacencyList[current.getKey()];
+
+            for (let key in neighbors) {
+                let neighbor = neighbors[key];
+
+                if (!unvisited.has(neighbor) || neighbor.isObstacle) continue;
+
+                let alt = current.getUpperbound() + Edge.getWeight(current, neighbor);
+
+                if (alt < neighbor.getUpperbound()) {
+                    neighbor.setUpperbound(alt);
+                    neighbor.setPrevious(current);
+                }
+
+                queue.push(neighbor);
+            }
+
+            unvisited.delete(current);
+        }
+
+        return Pathfinder.constructPath(source, target);
+    }
+
+    static async dfs(graph, source, target) {
+        const stack = [];
+        const unvisited = new Set();
+
+        for (let key in graph.vertices) {
+            let vertex = graph.vertices[key];
+            vertex.reset();
+            unvisited.add(vertex);
+        }
+
+        source.setUpperbound(0);
+        stack.push(source);
+
+        while (stack.length > 0) {
+            let current = stack.pop();
+
+            if (!unvisited.has(current)) continue;
+
+            current.element.classList.add("visited");
+
+            await new Promise(resolve => setTimeout(resolve, TIMEOUT_TIME));
+
+            if (current == target) break;
+
+            let neighbors = graph.adjacencyList[current.getKey()];
+
+            for (let key in neighbors) {
+                let neighbor = neighbors[key];
+
+                if (!unvisited.has(neighbor) || neighbor.isObstacle) continue;
+
+                let alt = current.getUpperbound() + Edge.getWeight(current, neighbor);
+
+                if (alt < neighbor.getUpperbound()) {
+                    neighbor.setUpperbound(alt);
+                    neighbor.setPrevious(current);
+                }
+
+                stack.push(neighbor);
             }
 
             unvisited.delete(current);

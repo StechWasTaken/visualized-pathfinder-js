@@ -13,6 +13,10 @@ function selectPathfindingAlgorithm() {
             return Pathfinder.dijkstra;
         case "astar":
             return Pathfinder.astar;
+        case "bfs":
+            return Pathfinder.bfs;
+        case "dfs":
+            return Pathfinder.dfs;
         default:
             return Pathfinder.dijkstra;
     }

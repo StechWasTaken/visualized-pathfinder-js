@@ -89,7 +89,7 @@ export default class Vertex {
         if (this.isObstacle) {
             this.element.classList.add("obstacle");
         } else {
-            this.element.classList.remove("obstacle");
+            this.element.classList.remove("obstacle"); 
         }
     }
 
