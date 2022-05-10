@@ -28,10 +28,9 @@ export default class GridGraph {
 
         for (let y = 0; y < height; y++) {
             for (let x = 0; x < width; x++) {
-                let key = `${x}:${y}`;
                 let vertex = new Vertex(x, y)
-                this.vertices[key] = vertex;
-                this.adjacencyList[key] = [];
+                this.vertices[vertex.key] = vertex;
+                this.adjacencyList[vertex.key] = [];
             }
         }
     }
@@ -69,8 +68,9 @@ export default class GridGraph {
 
         for (let y = 0; y < this.height; y++) {
             for (let x = 0; x < this.width; x++) {
-                let vertex = this.vertices[`${x}:${y}`];
+                let vertex = this.vertices[`${x}-${y}`];
                 let childElement = vertex.getElement(this.width);
+                childElement.classList.add("vertex");
                 this.element.insertAdjacentElement("beforeend", childElement);
             }
         }
@@ -81,15 +81,8 @@ export default class GridGraph {
     generate() {
         for (let y = 0; y < this.height; y++) {
             for (let x = 0; x < this.width; x++) {
-                let key = `${x}:${y}`;
-                let vertex = this.vertices[key];
-            }
-        }
-
-        for (let y = 0; y < this.height; y++) {
-            for (let x = 0; x < this.width; x++) {
-                let current = `${x}:${y}`;
-                let neighbors = [`${x-1}:${y+1}`, `${x-1}:${y-1}`, `${x+1}:${y-1}`, `${x+1}:${y+1}`, `${x}:${y+1}`, `${x-1}:${y}`, `${x}:${y-1}`, `${x+1}:${y}`];
+                let current = `${x}-${y}`;
+                let neighbors = [`${x-1}-${y+1}`, `${x-1}-${y-1}`, `${x+1}-${y-1}`, `${x+1}-${y+1}`, `${x}-${y+1}`, `${x-1}-${y}`, `${x}-${y-1}`, `${x+1}-${y}`];
                 for (let key in neighbors) {
                     if (neighbors[key] in this.adjacencyList) {
                         if (this.vertices[neighbors[key]].isObstacle) continue;
@@ -101,7 +94,7 @@ export default class GridGraph {
     }
 
     clear() {
-        for (let key in this.vertices) {
+        for (const key in this.vertices) {
             let vertex = this.vertices[key];
             vertex.reset();
         }

@@ -4,7 +4,7 @@ export default class Vertex {
     element = document.createElement("div");
 
     constructor(x, y) {
-        this.key = `${x}:${y}`;
+        this.key = `${x}-${y}`;
         this.x = x;
         this.y = y;
         this.upperbound = MAX_UPPERBOUND;
@@ -34,6 +34,10 @@ export default class Vertex {
      */
     getPrevious() {
         return this.previous;
+    }
+
+    setColor(color) {
+        this.element.style.backgroundColor = color;
     }
 
     /**
@@ -81,6 +85,7 @@ export default class Vertex {
         this.previous = null;
         this.element.classList.remove("visited");
         this.element.classList.remove("path");
+        this.element.style.backgroundColor = "";
     }
 
     switchObstacle() {

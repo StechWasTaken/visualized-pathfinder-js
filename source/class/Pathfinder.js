@@ -18,6 +18,22 @@ const ASTAR_COMPARATOR = (a, b) => (a.getHeuristicValue() < b.getHeuristicValue(
 
 const TIMEOUT_TIME = 1;
 
+/**
+ * 
+ * @param {Vertex} current 
+ * @param {Vertex} source 
+ * @param {Vertex} target 
+ * @returns 
+ */
+const vertexColor = (current, source, target) => {
+    if (current == target || current == source) return;
+    const percentage = Edge.getWeight(current, target) / Edge.getWeight(source, target);
+    const r = 255 * (1 - percentage);
+    const g = percentage <= 1 ? 255 * percentage : 255 - (255 * (percentage - 1));
+    const b = percentage <= 1 ? 0 : 255 * (percentage - 1);
+    current.setColor(`rgb(${r}, ${g}, ${b})`);
+}
+
 export default class Pathfinder {
     
     /**
@@ -42,17 +58,15 @@ export default class Pathfinder {
         while (!pq.isEmpty()) {
             let current = pq.pop();
 
-            current.element.classList.add("visited");
+            vertexColor(current, source, target);
 
             await new Promise(resolve => setTimeout(resolve, TIMEOUT_TIME));
 
             if (current === target) break;
 
-            let neighbors = graph.adjacencyList[current.getKey()];
+            const neighbors = graph.adjacencyList[current.getKey()];
 
-            for (let key in neighbors) {
-                let neighbor = neighbors[key];
-
+            for (const neighbor of neighbors) {
                 if (!unvisited.has(neighbor) || neighbor.isObstacle) continue;
 
                 let alt = current.getUpperbound() + Edge.getWeight(current, neighbor);
@@ -92,17 +106,15 @@ export default class Pathfinder {
         while (!pq.isEmpty()) {
             let current = pq.pop();
 
-            current.element.classList.add("visited");
+            vertexColor(current, source, target);
 
             await new Promise(resolve => setTimeout(resolve, TIMEOUT_TIME));
 
             if (current === target) break;
 
-            let neighbors = graph.adjacencyList[current.getKey()];
+            const neighbors = graph.adjacencyList[current.getKey()];
 
-            for (let key in neighbors) {
-                let neighbor = neighbors[key];
-
+            for (const neighbor of neighbors) {
                 if (!unvisited.has(neighbor) || neighbor.isObstacle) continue;
 
                 let alt = current.getUpperbound() + Edge.getWeight(current, neighbor);
@@ -137,17 +149,15 @@ export default class Pathfinder {
         while (queue.length > 0) {
             let current = queue.shift();
 
-            current.element.classList.add("visited");
+            vertexColor(current, source, target);
 
             await new Promise(resolve => setTimeout(resolve, TIMEOUT_TIME));
 
             if (current == target) break;
 
-            let neighbors = graph.adjacencyList[current.getKey()];
+            const neighbors = graph.adjacencyList[current.getKey()];
 
-            for (let key in neighbors) {
-                let neighbor = neighbors[key];
-
+            for (const neighbor of neighbors) {
                 if (!unvisited.has(neighbor) || neighbor.isObstacle) continue;
 
                 let alt = current.getUpperbound() + Edge.getWeight(current, neighbor);
@@ -181,7 +191,7 @@ export default class Pathfinder {
         while (stack.length > 0) {
             let current = stack.pop();
 
-            current.element.classList.add("visited");
+            vertexColor(current, source, target);
 
             await new Promise(resolve => setTimeout(resolve, TIMEOUT_TIME));
 
@@ -220,7 +230,7 @@ export default class Pathfinder {
 
         let current = target;
         while (current.hasPrevious()) {
-            current.element.classList.add("path");
+            if (current !== target) current.setColor("#ffe08a");
             path.push(current);
             current = current.getPrevious();
         }

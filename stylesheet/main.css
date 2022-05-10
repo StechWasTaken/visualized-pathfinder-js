@@ -18,7 +18,7 @@ body {
 .vertex {
     box-sizing: border-box;
     transition: all 0.25s;
-    background-color: #eeeeee;
+    background-color: #f5f5f5;
 }
 
 .grid {
@@ -46,7 +46,7 @@ body {
 }
 
 .over {
-    background-color: aquamarine;
+    background-color: aquamarine !important;
     transition: all 0.05s;
 }
 
@@ -77,3 +77,4 @@ body {
 .source.target {
     background: linear-gradient(135deg, rgba(72,199,142,1) 50%, rgba(241,70,104,1) 50%);
 }
+

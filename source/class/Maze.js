@@ -17,7 +17,7 @@ export default class Maze {
 
         for (let y = 0; y < graph.height; y++) {
             for (let x = 0; x < graph.width; x++) {
-                graph.vertices[`${x}:${y}`].switchObstacle();
+                graph.vertices[`${x}-${y}`].switchObstacle();
             }
             await new Promise(resolve => setTimeout(resolve, TIMEOUT_TIME));
         }
@@ -28,7 +28,7 @@ export default class Maze {
         x += x % 2 == 0 ? 1 : 0;
         y += y % 2 == 0 ? 1 : 0; 
 
-        let vertex = graph.getVertex(`${x}:${y}`);
+        let vertex = graph.getVertex(`${x}-${y}`);
         vertex.switchObstacle();
         passages.add(vertex);
 
@@ -50,12 +50,12 @@ export default class Maze {
                     if (current.x == neighbor.x) {
                         let dy = current.y > neighbor.y ? current.y - 1 : current.y + 1;
                         let dx = current.x;
-                        let key = `${dx}:${dy}`;
+                        let key = `${dx}-${dy}`;
                         vertex = graph.getVertex(key);
                     } else {
                         let dy = current.y;
                         let dx = current.x > neighbor.x ? current.x - 1 : current.x + 1;
-                        let key = `${dx}:${dy}`;
+                        let key = `${dx}-${dy}`;
                         vertex = graph.getVertex(key);
                     }
 
@@ -87,7 +87,7 @@ export default class Maze {
         for (let y = 0; y < graph.height; y++) {
             for (let x = 0; x < graph.width; x++) {
                 if (Math.random() < 0.5) {
-                    graph.vertices[`${x}:${y}`].switchObstacle();
+                    graph.vertices[`${x}-${y}`].switchObstacle();
                 }
             }
             await new Promise(resolve => setTimeout(resolve, TIMEOUT_TIME));
@@ -102,7 +102,7 @@ export default class Maze {
 
         for (let y = 0; y < graph.height; y++) {
             for (let x = 0; x < graph.width; x++) {
-                graph.vertices[`${x}:${y}`].switchObstacle();
+                graph.vertices[`${x}-${y}`].switchObstacle();
             }
             await new Promise(resolve => setTimeout(resolve, TIMEOUT_TIME));
         }
@@ -113,7 +113,7 @@ export default class Maze {
         x += x % 2 == 0 ? 1 : 0;
         y += y % 2 == 0 ? 1 : 0; 
 
-        let vertex = graph.getVertex(`${x}:${y}`);
+        let vertex = graph.getVertex(`${x}-${y}`);
         stack.push(vertex);
 
         while (stack.length > 0) {
@@ -132,11 +132,11 @@ export default class Maze {
                     if (current.x == neighbor.x) {
                         let dy = current.y > neighbor.y ? current.y - 1 : current.y + 1;
                         let dx = current.x;
-                        vertex = graph.getVertex(`${dx}:${dy}`);
+                        vertex = graph.getVertex(`${dx}-${dy}`);
                     } else {
                         let dy = current.y;
                         let dx = current.x > neighbor.x ? current.x - 1 : current.x + 1;
-                        vertex = graph.getVertex(`${dx}:${dy}`);
+                        vertex = graph.getVertex(`${dx}-${dy}`);
                     }
 
                     stack.push(current);
@@ -161,7 +161,7 @@ export default class Maze {
     static frontierCells(graph, vertex) {
         const x = vertex.x;
         const y = vertex.y;
-        const keys = [`${x-2}:${y}`, `${x}:${y-2}`, `${x+2}:${y}`, `${x}:${y+2}`];
+        const keys = [`${x-2}-${y}`, `${x}-${y-2}`, `${x+2}-${y}`, `${x}-${y+2}`];
         const neighbors = [];
 
         for (let key in keys) {
