@@ -3,6 +3,7 @@ import Vertex from "./Vertex.js";
 import GridGraph from "./GridGraph.js";
 import Edge from "./Edge.js";
 import { MAX_UPPERBOUND } from "./Vertex.js";
+import Queue from "./Queue.js";
 
 /**
  * @param {Vertex} a
@@ -134,7 +135,7 @@ export default class Pathfinder {
     }
 
     static async bfs(graph, source, target) {
-        const queue = [];
+        const queue = new Queue();
         const unvisited = new Set();
 
         for (let key in graph.vertices) {
@@ -144,10 +145,10 @@ export default class Pathfinder {
         }
 
         source.setUpperbound(0);
-        queue.push(source);
+        queue.add(source);
 
-        while (queue.length > 0) {
-            let current = queue.shift();
+        while (!queue.isEmpty()) {
+            let current = queue.remove();
 
             vertexColor(current, source, target);
 
@@ -165,7 +166,7 @@ export default class Pathfinder {
                 if (alt < neighbor.getUpperbound()) {
                     neighbor.setUpperbound(alt);
                     neighbor.setPrevious(current);
-                    queue.push(neighbor);
+                    queue.add(neighbor);
                 }
             }
 

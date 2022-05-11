@@ -1,18 +1,39 @@
 @import "https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css";
 @import "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css";
 
+* {
+    --nav-height: 7vh;
+}
+
+html {
+    /* overflow: hidden; */
+}
+
 body {
     padding: 0px;
     margin: 0px;
 }
 
 #container {
-    height: 90vh;
+    height: calc(100vh - var(--nav-height));
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
     transition: all 0.25s;
+}
+
+.navbar {
+    min-height: var(--nav-height); 
+}
+
+.navbar-brand {
+    min-height: var(--nav-height);
+}
+
+#hamburger {
+    min-height: var(--nav-height);
+    min-width: var(--nav-height);
 }
 
 .vertex {

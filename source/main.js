@@ -1,7 +1,5 @@
 import GridGraph from "./class/GridGraph.js";
-import Vertex from "./class/Vertex.js";
 import Pathfinder from "./class/Pathfinder.js";
-import Edge from "./class/Edge.js";
 import Maze from "./class/Maze.js";
 
 function selectPathfindingAlgorithm() {
