@@ -3,8 +3,7 @@ import Pathfinder from "./class/Pathfinder.js";
 import Maze from "./class/Maze.js";
 
 function selectPathfindingAlgorithm() {
-    const algorithmField = document.getElementById("algorithm");
-    const algorithm = algorithmField.value;
+    const algorithm = document.getElementById("algorithm").value;
 
     switch (algorithm) {
         case "dijkstra":
@@ -21,8 +20,7 @@ function selectPathfindingAlgorithm() {
 }
 
 function selectMazeAlgorithm() {
-    const mazeField = document.getElementById("maze");
-    const algorithm = mazeField.value; 
+    const algorithm = document.getElementById("maze").value; 
 
     switch (algorithm) {
         case "prim":
@@ -38,10 +36,8 @@ function selectMazeAlgorithm() {
 
 async function generateGraph() {
     const container = document.getElementById("container");
-    const size = document.getElementById("size");
-    const width = size.value
-    const height = width;
-    const graph = new GridGraph(width, height);
+    const size = document.getElementById("size").value;
+    const graph = new GridGraph(size, size);
     graph.generate();
     container.innerHTML = "";
     container.append(graph.getElement());
