@@ -32,7 +32,7 @@ const vertexColor = (current, source, target) => {
     const r = 255 * (1 - percentage);
     const g = percentage <= 1 ? 255 * percentage : 255 - (255 * (percentage - 1));
     const b = percentage <= 1 ? 0 : 255 * (percentage - 1);
-    current.setColor(`rgb(${r}, ${g}, ${b})`);
+    current.setColor(`rgba(${r}, ${g}, ${b}, 0.4    )`);
 }
 
 export default class Pathfinder {
@@ -120,9 +120,12 @@ export default class Pathfinder {
 
                 let alt = current.getUpperbound() + Edge.getWeight(current, neighbor);
 
+                const dx = Math.abs(neighbor.x - target.x);
+                const dy = Math.abs(neighbor.y - target.y); 
+
                 if (alt < neighbor.getUpperbound()) {
                     neighbor.setUpperbound(alt);
-                    neighbor.setHeuristicValue(alt + Edge.getWeight(neighbor, target));
+                    neighbor.setHeuristicValue(alt + Math.min(dx, dy) * Math.sqrt(2) + Math.abs(dx - dy));
                     neighbor.setPrevious(current);
                     pq.push(neighbor);
                 }
@@ -241,6 +244,8 @@ export default class Pathfinder {
         current.element.classList.add("path");
 
         path.push(current);
+
+        console.log(path.length);
 
         return path.reverse();
     }
