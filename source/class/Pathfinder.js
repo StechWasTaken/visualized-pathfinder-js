@@ -120,12 +120,9 @@ export default class Pathfinder {
 
                 let alt = current.getUpperbound() + Edge.getWeight(current, neighbor);
 
-                const dx = Math.abs(neighbor.x - target.x);
-                const dy = Math.abs(neighbor.y - target.y); 
-
                 if (alt < neighbor.getUpperbound()) {
                     neighbor.setUpperbound(alt);
-                    neighbor.setHeuristicValue(alt + Math.min(dx, dy) * Math.sqrt(2) + Math.abs(dx - dy));
+                    neighbor.setHeuristicValue(alt + Edge.getWeight(neighbor, target));
                     neighbor.setPrevious(current);
                     pq.push(neighbor);
                 }
@@ -229,12 +226,11 @@ export default class Pathfinder {
      * @param {Vertex} source 
      * @param {Vertex} target 
      */
-    static constructPath(source, target) {
+    static async constructPath(source, target) {
         let path = [];
 
         let current = target;
         while (current.hasPrevious()) {
-            if (current !== target) current.setColor("#ffe08a");
             path.push(current);
             current = current.getPrevious();
         }
@@ -245,8 +241,23 @@ export default class Pathfinder {
 
         path.push(current);
 
+        path = path.reverse();
+
         console.log(path.length);
 
-        return path.reverse();
+        await Pathfinder.traversePath(path);
+
+        return path;
+    }
+
+    /**
+     * 
+     * @param {Vertex[]} path 
+     */
+    static async traversePath(path) {
+        for (let i = 1; i < path.length - 1; i++) {
+            path[i].setColor("rgba(70, 54, 217, 0.5)");
+            await new Promise(resolve => setTimeout(resolve, 10));
+        }
     }
 }

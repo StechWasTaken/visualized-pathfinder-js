@@ -72,7 +72,7 @@ body {
 }
 
 .obstacle {
-    background-color: #505050 !important;
+    background-color: rgb(147 147 147) !important;
 }
 
 .visited {
