@@ -3,8 +3,8 @@ import Vertex from "./Vertex.js";
 
 export default class GridGraph {
     element = document.createElement("div");
-    adjacencyList = {}
-    vertices = {}
+    adjacencyList = new Map();
+    vertices = new Map();
     size = window.innerWidth / 3;
     source = null;
     target = null;
@@ -29,8 +29,8 @@ export default class GridGraph {
         for (let y = 0; y < height; y++) {
             for (let x = 0; x < width; x++) {
                 let vertex = new Vertex(x, y)
-                this.vertices[vertex.key] = vertex;
-                this.adjacencyList[vertex.key] = [];
+                this.vertices.set(`${x}-${y}`, vertex);
+                this.adjacencyList.set(`${x}-${y}`, []);
             }
         }
     }
@@ -60,7 +60,15 @@ export default class GridGraph {
     }
 
     getVertex(key) {
-        return key in this.vertices ? this.vertices[key] : null;
+        return this.vertices.has(key) ? this.vertices.get(key) : null;
+    }
+
+    hasVertex(key) {
+        return this.vertices.has(key);
+    }
+
+    getNeighbors(key) {
+        return this.adjacencyList.get(key);
     }
 
     getElement() {
@@ -68,7 +76,7 @@ export default class GridGraph {
 
         for (let y = 0; y < this.height; y++) {
             for (let x = 0; x < this.width; x++) {
-                let vertex = this.vertices[`${x}-${y}`];
+                let vertex = this.vertices.get(`${x}-${y}`);
                 let childElement = vertex.getElement(this.width);
                 childElement.classList.add("vertex");
                 this.element.insertAdjacentElement("beforeend", childElement);
@@ -81,12 +89,12 @@ export default class GridGraph {
     generate() {
         for (let y = 0; y < this.height; y++) {
             for (let x = 0; x < this.width; x++) {
-                let current = `${x}-${y}`;
-                let neighbors = [`${x-1}-${y+1}`, `${x-1}-${y-1}`, `${x+1}-${y-1}`, `${x+1}-${y+1}`, `${x}-${y+1}`, `${x-1}-${y}`, `${x}-${y-1}`, `${x+1}-${y}`];
-                for (let key in neighbors) {
-                    if (neighbors[key] in this.adjacencyList) {
-                        if (this.vertices[neighbors[key]].isObstacle) continue;
-                        this.adjacencyList[current].push(this.vertices[neighbors[key]]);
+                const currentKey = `${x}-${y}`;
+                const neighborKeys = [`${x-1}-${y+1}`, `${x-1}-${y-1}`, `${x+1}-${y-1}`, `${x+1}-${y+1}`, `${x}-${y+1}`, `${x-1}-${y}`, `${x}-${y-1}`, `${x+1}-${y}`];
+                for (const neighborKey of neighborKeys) {
+                    if (this.adjacencyList.has(neighborKey)) {
+                        if (this.vertices.get(neighborKey).isObstacle) continue;
+                        this.adjacencyList.get(currentKey).push(this.vertices.get(neighborKey));
                     }
                 }
             }
@@ -94,8 +102,7 @@ export default class GridGraph {
     }
 
     clear() {
-        for (const key in this.vertices) {
-            let vertex = this.vertices[key];
+        for (const vertex of this.vertices.values()) {
             vertex.reset();
         }
     }

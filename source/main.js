@@ -29,6 +29,8 @@ function selectMazeAlgorithm() {
             return Maze.random;
         case "dfs":
             return Maze.dfs;
+        case "bt":
+            return Maze.binaryTree;
         default:
             return (graph) => (graph);
     }

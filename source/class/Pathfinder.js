@@ -21,6 +21,17 @@ const TIMEOUT_TIME = 1;
 
 /**
  * 
+ * @param {Vertex} a 
+ * @param {Vertex} b 
+ */
+const h = (a, b) => {
+    const dx = Math.abs(a.x - b.x);
+    const dy = Math.abs(a.y - b.y);
+    return dx + dy;
+}
+
+/**
+ * 
  * @param {Vertex} current 
  * @param {Vertex} source 
  * @param {Vertex} target 
@@ -47,8 +58,7 @@ export default class Pathfinder {
         const pq = new PriorityQueue(DIJKSTRA_COMPARATOR);
         const unvisited = new Set();
 
-        for (let key in graph.vertices) {
-            let vertex = graph.vertices[key];
+        for (const vertex of graph.vertices.values()) {
             vertex.reset();
             unvisited.add(vertex);
         }
@@ -57,7 +67,7 @@ export default class Pathfinder {
         pq.push(source);
 
         while (!pq.isEmpty()) {
-            let current = pq.pop();
+            const current = pq.pop();
 
             vertexColor(current, source, target);
 
@@ -65,7 +75,7 @@ export default class Pathfinder {
 
             if (current === target) break;
 
-            const neighbors = graph.adjacencyList[current.getKey()];
+            const neighbors = graph.getNeighbors(current.getKey());
 
             for (const neighbor of neighbors) {
                 if (!unvisited.has(neighbor) || neighbor.isObstacle) continue;
@@ -94,8 +104,7 @@ export default class Pathfinder {
         const pq = new PriorityQueue(ASTAR_COMPARATOR);
         const unvisited = new Set();
 
-        for (let key in graph.vertices) {
-            let vertex = graph.vertices[key];
+        for (const vertex of graph.vertices.values()) {
             vertex.reset();
             unvisited.add(vertex);
         }
@@ -105,7 +114,7 @@ export default class Pathfinder {
         pq.push(source);
 
         while (!pq.isEmpty()) {
-            let current = pq.pop();
+            const current = pq.pop();
 
             vertexColor(current, source, target);
 
@@ -113,7 +122,7 @@ export default class Pathfinder {
 
             if (current === target) break;
 
-            const neighbors = graph.adjacencyList[current.getKey()];
+            const neighbors = graph.getNeighbors(current.getKey());
 
             for (const neighbor of neighbors) {
                 if (!unvisited.has(neighbor) || neighbor.isObstacle) continue;
@@ -138,8 +147,7 @@ export default class Pathfinder {
         const queue = new Queue();
         const unvisited = new Set();
 
-        for (let key in graph.vertices) {
-            let vertex = graph.vertices[key];
+        for (const vertex of graph.vertices.values()) {
             vertex.reset();
             unvisited.add(vertex);
         }
@@ -156,7 +164,7 @@ export default class Pathfinder {
 
             if (current == target) break;
 
-            const neighbors = graph.adjacencyList[current.getKey()];
+            const neighbors = graph.getNeighbors(current.getKey());
 
             for (const neighbor of neighbors) {
                 if (!unvisited.has(neighbor) || neighbor.isObstacle) continue;
@@ -166,7 +174,7 @@ export default class Pathfinder {
                 if (alt < neighbor.getUpperbound()) {
                     neighbor.setUpperbound(alt);
                     neighbor.setPrevious(current);
-                    queue.add(neighbor);
+                    if (unvisited.has(neighbor)) queue.add(neighbor);
                 }
             }
 
@@ -180,8 +188,7 @@ export default class Pathfinder {
         const stack = [];
         const unvisited = new Set();
 
-        for (let key in graph.vertices) {
-            let vertex = graph.vertices[key];
+        for (const vertex of graph.vertices.values()) {
             vertex.reset();
             unvisited.add(vertex);
         }
@@ -198,11 +205,9 @@ export default class Pathfinder {
 
             if (current == target) break;
 
-            let neighbors = graph.adjacencyList[current.getKey()];
+            const neighbors = graph.getNeighbors(current.getKey());
 
-            for (let key in neighbors) {
-                let neighbor = neighbors[key];
-
+            for (const neighbor of neighbors) {
                 if (!unvisited.has(neighbor) || neighbor.isObstacle) continue;
 
                 let alt = current.getUpperbound() + Edge.getWeight(current, neighbor);
@@ -241,10 +246,6 @@ export default class Pathfinder {
 
         path.push(current);
 
-        path = path.reverse();
-
-        console.log(path.length);
-
         await Pathfinder.traversePath(path);
 
         return path;
@@ -255,7 +256,7 @@ export default class Pathfinder {
      * @param {Vertex[]} path 
      */
     static async traversePath(path) {
-        for (let i = 1; i < path.length - 1; i++) {
+        for (let i = path.length - 2; i > 0; i--) {
             path[i].setColor("rgba(70, 54, 217, 0.5)");
             await new Promise(resolve => setTimeout(resolve, 10));
         }
