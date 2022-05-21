@@ -21,17 +21,6 @@ const TIMEOUT_TIME = 1;
 
 /**
  * 
- * @param {Vertex} a 
- * @param {Vertex} b 
- */
-const h = (a, b) => {
-    const dx = Math.abs(a.x - b.x);
-    const dy = Math.abs(a.y - b.y);
-    return dx + dy;
-}
-
-/**
- * 
  * @param {Vertex} current 
  * @param {Vertex} source 
  * @param {Vertex} target 
