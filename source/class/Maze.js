@@ -75,6 +75,64 @@ export default class Maze {
         }
     }
 
+    static async multiplePathPrim(graph) {
+        await Maze.multiplePath(graph, Maze.prim, 1, 1);
+    }
+
+    static async multiplePathDFS(graph) {
+        await Maze.multiplePath(graph, Maze.dfs, 2, 2);
+    }
+
+    static async multiplePath(graph, callback, neighborMin, neighborMax) {
+        await callback(graph);
+
+        for (const vertex of graph.vertices.values()) {
+            if (vertex.isObstacle) continue;
+
+            const neighbors = graph.getNeighbors(vertex.getKey());
+            
+            let count = 0;
+            for (const neighbor of neighbors) {
+                if (!neighbor.isObstacle) count++;
+            }
+
+            if (count > 1) continue;
+
+            const frontierCells = Maze.frontierCells(graph, vertex);
+
+            for (const frontierCell of frontierCells) {
+                const neighbors = graph.getNeighbors(frontierCell.getKey());
+
+                let count = 0;
+                for (const neighbor of neighbors) {
+                    if (!neighbor.isObstacle) count++;
+                }
+                
+                if (count > neighborMax || count < neighborMin) continue;
+
+                let dividingVertex = null;
+
+                if (vertex.x == frontierCell.x) {
+                    const dy = vertex.y > frontierCell.y ? vertex.y - 1 : vertex.y + 1;
+                    const dx = vertex.x;
+                    dividingVertex = graph.getVertex(`${dx}-${dy}`);
+                } else {
+                    const dy = vertex.y;
+                    const dx = vertex.x > frontierCell.x ? vertex.x - 1 : vertex.x + 1;
+                    dividingVertex = graph.getVertex(`${dx}-${dy}`);
+                }
+
+                if (!dividingVertex.isObstacle) continue;
+
+                dividingVertex.switchObstacle();
+
+                await new Promise(resolve => setTimeout(resolve, TIMEOUT_TIME));
+
+                break;
+            }
+        }
+    }
+
     static async random(graph) {
         graph.clear();
 

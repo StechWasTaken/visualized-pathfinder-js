@@ -25,6 +25,10 @@ function selectMazeAlgorithm() {
     switch (algorithm) {
         case "prim":
             return Maze.prim;
+        case "rmpprim":
+            return Maze.multiplePathPrim;
+        case "rmpdfs":
+            return Maze.multiplePathDFS;
         case "random":
             return Maze.random;
         case "dfs":
